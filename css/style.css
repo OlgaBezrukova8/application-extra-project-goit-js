@@ -1,0 +1,82 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Montserrat", sans-serif;
+}
+
+ul {
+  list-style: none;
+  padding: 0px;
+}
+
+button {
+  border: none;
+  font-size: 14px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  border-radius: 5px;
+  background-color: #ffd700;
+  cursor: pointer;
+}
+
+#root {
+  display: flex;
+}
+
+.left-side {
+  background-color: #ffefd5;
+  width: 40%;
+  padding: 40px;
+  height: 100%;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.book-item {
+  display: flex;
+  align-items: baseline;
+}
+
+.book-title {
+  font-size: 18px;
+}
+
+.delete-btn {
+  margin-left: 5px;
+
+  padding: 6px 20px;
+}
+
+.books-button {
+  padding: 6px 20px;
+}
+
+.right-side {
+  background-color: #ffa500;
+  width: 60%;
+  padding: 40px;
+}
+
+.book-name-title {
+  font-size: 24px;
+}
+
+.edit-btn {
+  margin-left: auto;
+  padding: 6px 20px;
+}
+
+.book-item {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.author-name {
+  font-size: 18px;
+}
+
+.book-discription {
+  font-size: 16px;
+}
