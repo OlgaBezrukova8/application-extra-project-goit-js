@@ -1,22 +1,26 @@
 body {
   padding: 0px;
   margin: 0px;
+
   font-family: "Montserrat", sans-serif;
 }
 
 ul {
-  list-style: none;
   padding: 0px;
+  list-style: none;
 }
 
 button {
-  border: none;
-  font-size: 14px;
   font-family: "Montserrat";
+  font-size: 14px;
   font-weight: 500;
+
+  border: none;
   border-radius: 5px;
-  background-color: #ffd700;
+
   cursor: pointer;
+
+  background-color: #ffd700;
 }
 
 #root {
@@ -24,10 +28,12 @@ button {
 }
 
 .left-side {
-  background-color: #ffefd5;
-  width: 40%;
   padding: 40px;
-  height: 100%;
+
+  width: 40%;
+  /* height: 100%; */
+
+  background-color: #ffefd5;
 }
 
 .title {
@@ -44,19 +50,34 @@ button {
 }
 
 .delete-btn {
-  margin-left: 5px;
-
+  margin-left: 20px;
   padding: 6px 20px;
+
+  transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.delete-btn:hover {
+  background-color: rgb(240, 128, 128, 0.5);
+  box-shadow: 0px 0px 22px 1px rgba(225, 216, 157, 0.64);
 }
 
 .books-button {
   padding: 6px 20px;
+
+  transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.books-button:hover,
+.books-button:focus {
+  background-color: rgb(102, 205, 170, 0.5);
+  box-shadow: 0px 0px 22px 1px rgba(225, 216, 157, 0.64);
 }
 
 .right-side {
-  background-color: #ffa500;
-  width: 60%;
   padding: 40px;
+  width: 60%;
+
+  background-color: #ffa500;
 }
 
 .book-name-title {
@@ -66,6 +87,13 @@ button {
 .edit-btn {
   margin-left: auto;
   padding: 6px 20px;
+
+  transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.edit-btn:hover {
+  background-color: rgb(102, 205, 170, 0.5);
+  box-shadow: 0px 0px 22px 1px rgba(225, 216, 157, 0.64);
 }
 
 .book-item {
