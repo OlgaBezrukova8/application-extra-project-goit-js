@@ -61,14 +61,14 @@ button {
   box-shadow: 0px 0px 22px 1px rgba(225, 216, 157, 0.64);
 }
 
-.books-button {
+.book-button {
   padding: 6px 20px;
 
   transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.books-button:hover,
-.books-button:focus {
+.book-button:hover,
+.book-button:focus {
   background-color: rgb(102, 205, 170, 0.5);
   box-shadow: 0px 0px 22px 1px rgba(225, 216, 157, 0.64);
 }
@@ -107,4 +107,19 @@ button {
 
 .book-discription {
   font-size: 16px;
+}
+
+.form-add {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin-top: 15px;
+}
+
+.button-save {
+  /* margin-top: 20px; */
+  margin: auto;
+  padding: 6px 20px;
 }

@@ -39,6 +39,8 @@ const books = [
   },
 ];
 
+localStorage.setItem("books", JSON.stringify(books));
+
 const rootEl = document.querySelector("#root");
 
 const leftSide = document.createElement("div");
@@ -55,7 +57,7 @@ const booksList = document.createElement("ul");
 booksList.classList.add("books-list");
 
 const button = document.createElement("button");
-button.classList.add("books-button");
+button.classList.add("book-button");
 button.textContent = "Add new book";
 
 rootEl.append(leftSide, rightSide);
@@ -75,22 +77,39 @@ const renderPreviewMarkup = (books) => {
 };
 
 const renderPreview = (event) => {
+  const books = JSON.parse(localStorage.getItem("books"));
   const book = books.find((book) => book.title === event.target.textContent);
-  
+
   rightDiv.innerHTML = "";
   rightDiv.insertAdjacentHTML("beforeend", renderPreviewMarkup(book));
 };
 
-const deleteF = () => {
-  // const book = books.find(book => book.id === event.target.parentNode.id);
-  // console.log(book);
+const deleteF = (event) => {
+  const books = JSON.parse(localStorage.getItem("books"));
+
+  const book = books.find((book) => book.id === event.target.parentNode.id);
+  const filterBooks = books.filter((el) => el.id !== book.id);
+  localStorage.setItem("books", JSON.stringify(filterBooks));
+
+  const compareBookTitle = document.querySelector(".book-name-title");
+  if (compareBookTitle) {
+    if (book.title === compareBookTitle.textContent) {
+      rightDiv.innerHTML = "";
+    }
+  }
+
+  booksList.innerHTML = "";
+  renderList();
 };
+
 const editF = (event) => {
+  const books = JSON.parse(localStorage.getItem("books"));
   const book = books.find((book) => book.id === event.target.parentNode.id);
   console.log(book);
 };
 
 const renderList = () => {
+  const books = JSON.parse(localStorage.getItem("books"));
   const booksArray = books
     .map((book) => {
       return `
@@ -104,8 +123,8 @@ const renderList = () => {
 
   booksListAdd.insertAdjacentHTML("beforeend", booksArray);
 
-  const p = document.querySelectorAll(".book-title");
-  p.forEach((el) => el.addEventListener("click", renderPreview));
+  const button = document.querySelectorAll(".book-title");
+  button.forEach((el) => el.addEventListener("click", renderPreview));
 
   document
     .querySelectorAll(".edit-btn")
@@ -116,84 +135,72 @@ const renderList = () => {
     .forEach((el) => el.addEventListener("click", deleteF));
 };
 
+function createFormMarkup() {
+  return `
+  <form class="form-add" action="">
+    <label>
+      Book title
+      <input name="title" class="input input-title" type="text" />
+    </label>
+
+    <label>
+      Book author
+      <input name="author" class="input input-author" type="text" />
+    </label>
+
+    <label>
+      Book image
+      <input name="image" class="input input-image" type="text" />
+    </label>
+
+    <label>
+     Book discription
+      <input name="description" class="input input-description" type="text" />
+    </label>
+
+    <button type="button" class="button-save">Save</button>
+  </form>`;
+}
+
+const addBook = () => {
+  const newBook = {
+    id: `${Date.now()}`,
+    title: "",
+    author: "",
+    img: "",
+    descr: "",
+  };
+
+  rightDiv.innerHTML = createFormMarkup();
+  fillObject(newBook);
+
+  const saveButton = document.querySelector(".button-save");
+  saveButton.addEventListener("click", saveBook);
+  function saveBook() {
+    if (Object.values(newBook).some((el) => el === "")) {
+      alert("Fill all inputs PLS!");
+      return;
+    }
+
+    const books = JSON.parse(localStorage.getItem("books"));
+    books.push(newBook);
+    localStorage.setItem("books", JSON.stringify(books));
+
+    rightDiv.innerHTML = "";
+    rightDiv.insertAdjacentHTML("beforeend", renderPreviewMarkup(newBook));
+
+    booksList.innerHTML = "";
+    renderList();
+  }
+};
+
+function fillObject(book) {
+  const inputTitle = document.querySelectorAll(".input");
+  inputTitle.forEach((el) => el.addEventListener("change", mvoh));
+  function mvoh(event) {
+    book[event.target.value] = event.target.value;
+  }
+}
+
+button.addEventListener("click", addBook);
 renderList();
-
-// const rootEl = document.querySelector("#root");
-
-// const leftDiv = document.createElement("div");
-// leftDiv.classList.add("left__div");
-
-// const rightDiv = document.createElement("div");
-// rightDiv.classList.add("right__div");
-
-// const title = document.createElement("h1");
-// title.classList.add("book__title");
-// title.textContent = "Books title";
-
-// const listEl = document.createElement("ul");
-// listEl.classList.add("book__list");
-
-// const btnEl = document.createElement("button");
-// btnEl.textContent = "Add new book";
-
-// rootEl.append(leftDiv, rightDiv);
-// leftDiv.append(title, listEl, btnEl);
-
-// const rightSide = document.querySelector(".right__div");
-// const bookList = document.querySelector(".book__list");
-
-// const renderPreviewMarkup = (books) => {
-//   return `
-//   <div class="book-discr-container">
-//     <h2 class="book-disc-title">${books.title}</h2>
-//     <p class="author-name">${books.author}</p>
-//     <img src="${books.img}" alt="" class="book-image">
-//     <p class="book-discr">${books.plot}</p>
-//   </div>`;
-// };
-
-// const renderPrewiew = (event) => {
-//   const book = books.find(
-//     (book) => book.title === event.currentTarget.textContent
-//   );
-//   rightSide.innerHTML("");
-//   rightSide.insertAdjacentElement("beforeend", renderPreviewMarkup);
-// };
-
-// const editF = (event) => {
-//   const book = books.find((book) => book.id === event.target.parentNode.id);
-//   // console.log(book);
-// };
-
-// const deleteF = (event) => {
-//   // const book = books.find((book) => book.id === event.target.parentNode.id);
-//   // console.log(book);
-// };
-
-// const renderList = () => {
-//   const listMarkup = books
-//     .map((book) => {
-//       const liEl = `
-//       <li id="${book.id}" class="book__item">
-//         <p class="book__title">${book.title}</p>
-//             <button class="edit__btn">Edit</button>
-//             <button class="delete__btn">Delete</button>
-//       </li>`;
-//       return liEl;
-//     })
-//     .join("");
-
-//   bookList.insertAdjacentHTML("beforeend", listMarkup);
-
-//   const p = document.querySelector(".book__title");
-//   p.forEach((el) => el.addEventListener("click", renderPrewiew));
-//   document
-//     .querySelector(".edit__btn")
-//     .forEach((el) => el.addEventListener("click", editF));
-
-//   document
-//     .querySelectorAll(".delete-btn")
-//     .forEach((el) => el.addEventListener("click", deleteF));
-// };
-
-// renderList();
