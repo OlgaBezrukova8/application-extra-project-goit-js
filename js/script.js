@@ -99,13 +99,43 @@ const deleteF = (event) => {
   }
 
   booksList.innerHTML = "";
+
+  setTimeout(() => {
+    alert("Books succsessfully deleted! :)");
+  }, 500);
+
   renderList();
 };
 
 const editF = (event) => {
+  rightDiv.innerHTML = "";
+
   const books = JSON.parse(localStorage.getItem("books"));
   const book = books.find((book) => book.id === event.target.parentNode.id);
-  console.log(book);
+
+  rightDiv.insertAdjacentHTML("beforeend", createFormMarkup(book));
+  fillObject(book);
+
+  const saveButton = document.querySelector(".button-save");
+  saveButton.addEventListener("click", saveEditButton);
+
+  function saveEditButton() {
+    const bookIndex = books.findIndex(
+      (el) => el.id === event.target.parentNode.id
+    );
+
+    books.splice(bookIndex, 1, book);
+
+    localStorage.setItem("books", JSON.stringify(books));
+    booksList.innerHTML = "";
+    rightDiv.innerHTML = "";
+
+    setTimeout(() => {
+      alert("Books succsessfully edited! :)");
+    }, 500);
+
+    renderList();
+  }
 };
 
 const renderList = () => {
@@ -135,27 +165,27 @@ const renderList = () => {
     .forEach((el) => el.addEventListener("click", deleteF));
 };
 
-function createFormMarkup() {
+function createFormMarkup({ title, author, img, plot }) {
   return `
   <form class="form-add" action="">
     <label>
       Book title
-      <input name="title" class="input input-title" type="text" />
+      <input value="${title}" name="title" class="input input-title" type="text" />
     </label>
 
     <label>
       Book author
-      <input name="author" class="input input-author" type="text" />
+      <input value="${author}" name="author" class="input input-author" type="text" />
     </label>
 
     <label>
       Book image
-      <input name="image" class="input input-image" type="text" />
+      <input value="${img}" name="img" class="input input-image" type="text" />
     </label>
 
     <label>
      Book discription
-      <input name="description" class="input input-description" type="text" />
+      <input value="${plot}" name="plot" class="input input-description" type="text" />
     </label>
 
     <button type="button" class="button-save">Save</button>
@@ -168,20 +198,22 @@ const addBook = () => {
     title: "",
     author: "",
     img: "",
-    descr: "",
+    plot: "",
   };
 
-  rightDiv.innerHTML = createFormMarkup();
+  rightDiv.innerHTML = createFormMarkup(newBook);
   fillObject(newBook);
 
   const saveButton = document.querySelector(".button-save");
   saveButton.addEventListener("click", saveBook);
+
   function saveBook() {
+    console.log(newBook);
+
     if (Object.values(newBook).some((el) => el === "")) {
       alert("Fill all inputs PLS!");
       return;
     }
-
     const books = JSON.parse(localStorage.getItem("books"));
     books.push(newBook);
     localStorage.setItem("books", JSON.stringify(books));
@@ -198,7 +230,7 @@ function fillObject(book) {
   const inputTitle = document.querySelectorAll(".input");
   inputTitle.forEach((el) => el.addEventListener("change", mvoh));
   function mvoh(event) {
-    book[event.target.value] = event.target.value;
+    book[event.target.name] = event.target.value;
   }
 }
 
